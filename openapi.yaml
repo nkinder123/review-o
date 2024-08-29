@@ -3,9 +3,28 @@
 
 openapi: 3.0.3
 info:
-    title: Business API
+    title: ""
     version: 0.0.1
 paths:
+    /helloworld/{name}:
+        get:
+            tags:
+                - Greeter
+            description: Sends a greeting
+            operationId: Greeter_SayHello
+            parameters:
+                - name: name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/helloworld.v1.HelloReply'
     /v1/business/create/appeal:
         post:
             tags:
@@ -15,7 +34,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/CreateAppealRequest'
+                            $ref: '#/components/schemas/api.business.v1.CreateAppealRequest'
                 required: true
             responses:
                 "200":
@@ -23,13 +42,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CreateAppealReply'
-                default:
-                    description: Default error response
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/api.business.v1.CreateAppealReply'
     /v1/business/createreply:
         post:
             tags:
@@ -39,7 +52,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/CreateReplyReq'
+                            $ref: '#/components/schemas/api.business.v1.CreateReplyReq'
                 required: true
             responses:
                 "200":
@@ -47,21 +60,174 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/CreateReplyResp'
-                default:
-                    description: Default error response
+                                $ref: '#/components/schemas/api.business.v1.CreateReplyResp'
+    /v1/op/opcreate:
+        post:
+            tags:
+                - Appeal
+            operationId: Appeal_OpCreateAppeal
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.appeal.v1.OpCreateAppealRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Status'
+                                $ref: '#/components/schemas/api.appeal.v1.OpCreateAppealReply'
+    /v1/review/create:
+        post:
+            tags:
+                - Review
+            operationId: Review_CreateReview
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.review.v1.CreateReviewRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.review.v1.CreateReviewReply'
+    /v1/review/create/appeal:
+        post:
+            tags:
+                - Review
+            operationId: Review_CreateAppeal
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.review.v1.CreateAppealRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.review.v1.CreateAppealReply'
+    /v1/review/create/op:
+        post:
+            tags:
+                - Review
+            operationId: Review_OpReAppeal
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.review.v1.OpCreateAppealRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.review.v1.OpCreateAppealReply'
+    /v1/review/delete:
+        delete:
+            tags:
+                - Review
+            operationId: Review_DeleteReview
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.review.v1.DeleteReviewReply'
+    /v1/review/get:
+        get:
+            tags:
+                - Review
+            operationId: Review_GetReview
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.review.v1.GetReviewReply'
+    /v1/review/getlist:
+        get:
+            tags:
+                - Review
+            operationId: Review_ListReview
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.review.v1.ListReviewReply'
+    /v1/review/reply:
+        post:
+            tags:
+                - Review
+            operationId: Review_ReplyReview
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.review.v1.ReplyReviewReq'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.review.v1.ReplyReviewReply'
+    /v1/review/update:
+        put:
+            tags:
+                - Review
+            operationId: Review_UpdateReview
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.review.v1.UpdateReviewRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.review.v1.UpdateReviewReply'
 components:
     schemas:
-        CreateAppealReply:
+        api.appeal.v1.OpCreateAppealReply:
+            type: object
+            properties: {}
+        api.appeal.v1.OpCreateAppealRequest:
             type: object
             properties:
                 appealId:
                     type: string
-        CreateAppealRequest:
+                opRemark:
+                    type: string
+                opUser:
+                    type: string
+                status:
+                    type: integer
+                    format: int32
+        api.business.v1.CreateAppealReply:
+            type: object
+            properties:
+                appealId:
+                    type: string
+        api.business.v1.CreateAppealRequest:
             type: object
             properties:
                 appealId:
@@ -81,7 +247,7 @@ components:
                     type: string
                 videoInfo:
                     type: string
-        CreateReplyReq:
+        api.business.v1.CreateReplyReq:
             type: object
             properties:
                 reviewId:
@@ -94,34 +260,125 @@ components:
                     type: string
                 videoInfo:
                     type: string
-        CreateReplyResp:
+        api.business.v1.CreateReplyResp:
             type: object
             properties:
                 replyId:
                     type: string
-        GoogleProtobufAny:
+        api.review.v1.CreateAppealReply:
             type: object
             properties:
-                '@type':
+                appealId:
                     type: string
-                    description: The type of the serialized message.
-            additionalProperties: true
-            description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
-        Status:
+        api.review.v1.CreateAppealRequest:
             type: object
             properties:
-                code:
+                appealId:
+                    type: string
+                reviewId:
+                    type: string
+                storeId:
+                    type: string
+                status:
                     type: integer
-                    description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
                     format: int32
+                reason:
+                    type: string
+                content:
+                    type: string
+                picInfo:
+                    type: string
+                videoInfo:
+                    type: string
+        api.review.v1.CreateReviewReply:
+            type: object
+            properties:
+                reviewID:
+                    type: string
+        api.review.v1.CreateReviewRequest:
+            type: object
+            properties:
+                userID:
+                    type: string
+                orderID:
+                    type: string
+                score:
+                    type: integer
+                    format: int32
+                serviceScore:
+                    type: integer
+                    format: int32
+                expressScore:
+                    type: integer
+                    format: int32
+                content:
+                    type: string
+                picInfo:
+                    type: string
+                videoInfo:
+                    type: string
+                anonymous:
+                    type: integer
+                    format: int32
+        api.review.v1.DeleteReviewReply:
+            type: object
+            properties: {}
+        api.review.v1.GetReviewReply:
+            type: object
+            properties: {}
+        api.review.v1.ListReviewReply:
+            type: object
+            properties: {}
+        api.review.v1.OpCreateAppealReply:
+            type: object
+            properties:
+                appealId:
+                    type: string
+        api.review.v1.OpCreateAppealRequest:
+            type: object
+            properties:
+                appealId:
+                    type: string
+                opRemark:
+                    type: string
+                opUser:
+                    type: string
+                status:
+                    type: integer
+                    format: int32
+        api.review.v1.ReplyReviewReply:
+            type: object
+            properties:
+                replyId:
+                    type: string
+        api.review.v1.ReplyReviewReq:
+            type: object
+            properties:
+                reviewId:
+                    type: string
+                storeId:
+                    type: string
+                content:
+                    type: string
+                picInfo:
+                    type: string
+                videoInfo:
+                    type: string
+        api.review.v1.UpdateReviewReply:
+            type: object
+            properties: {}
+        api.review.v1.UpdateReviewRequest:
+            type: object
+            properties: {}
+        helloworld.v1.HelloReply:
+            type: object
+            properties:
                 message:
                     type: string
-                    description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
-                details:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/GoogleProtobufAny'
-                    description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
-            description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+            description: The response message containing the greetings
 tags:
+    - name: Appeal
     - name: Business
+    - name: Greeter
+      description: The greeting service definition.
+    - name: Review
